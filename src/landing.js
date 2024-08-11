@@ -2,7 +2,7 @@ import Navbar from "./components/Nav/landingnav2";
 import { Icon } from "@iconify/react";
 import backgroundImage from "./assets/bg.jpg"
 import backgroundImage2 from "./assets/nini.jpg"
-import Studentsform from "./components/Login/userform";
+// import Studentsform from "./components/Login/userform";
 import { Link } from "react-router-dom";
 import Footer from "./components/Footer";
 
@@ -32,16 +32,16 @@ const LandingPage = () => {
                     <br></br>
                     <br></br>
                   <h1 className="text-white font-semibold text-3xl">
-                  Welcome to Newborn Hearing Loss and Genetic Screening in Rwanda (NBHS)
+                  Enseignement Supérieur et Universitaire congolais en marche vers la numérisation
                   </h1>
-                  <p className="text-base tracking-wider text-white p-6 font-light"> The NBHS Research project in Rwanda is dedicated <br></br>
+                  {/* <p className="text-base tracking-wider text-white p-6 font-light"> The NBHS Research project in Rwanda is dedicated <br></br>
                    to advancing newborn hearing screening by implementing 
                    a robust model for the early detection of hearing 
                    impairments in newborns. Concurrently, the project 
                    aims to delve into genetic assessments to identify 
                    genetic patterns associated with newborn hearing loss. 
                    This collaborative effort seeks to ensure timely 
-                   interventions and support for affected infants in Rwanda.</p>
+                   interventions and support for affected infants in Rwanda.</p> */}
                   <h1 className="text-white font-semibold mb-0 text-2xl underline underline-offset-8">
                  
                   </h1>
@@ -61,14 +61,14 @@ const LandingPage = () => {
                     <div className="border hover:border-white border-primary p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
                     <Icon icon="mdi:register-outline" />
                     </div>
-                    <h6 className="text-base  font-semibold">Step 1: Register before login</h6>
+                    <h6 className="text-base  font-semibold">Étape 1: Inscrivez-vous avant de vous connecter</h6>
                     <p className="mt-2 mb-4 ">
-                    Go to the link Application, Complete all Information After Finding your Information you will recive comfrimation Email.
+                    Accédez au lien Application, complétez toutes les informations Après avoir trouvé vos informations, vous recevrez un e-mail de confirmation.
                     </p>
                     <p className="underline text-base mt-5">
-                      <a href="#register" title="Meet our doctors" className="">
-                        Register now
-                       </a>
+                      <Link to="/register">
+                      Inscrivez-vous maintenant
+                      </Link>
                     </p>
 
                   </div>
@@ -81,13 +81,13 @@ const LandingPage = () => {
                     <div className="text-white border border-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-primary">
                     <Icon icon="tabler:login-2" />
                     </div>
-                    <h6 className="text-base  font-semibold">Step 2: Login by using E-mail ID</h6>
+                    <h6 className="text-base  font-semibold">Étape 2: Connectez-vous en utilisant votre identifiant e-mail</h6>
                     <p className="mt-2 mb-4 ">
-                    Please login with your E-mail ID, and PIN that you either created when you completed the application or that you have been given.
+                    Veuillez vous connecter avec votre identifiant e-mail et le code PIN que vous avez créé lorsque vous avez rempli la demande ou qui vous a été fourni.
                     </p>
                     <p className="underline text-base mt-5">
                       <Link href="/1/clinical/doctors" title="Meet our doctors" to="/login" className="">
-                        Login
+                      Connexion
                        </Link>
                     </p>
                   </div>
@@ -100,9 +100,9 @@ const LandingPage = () => {
                   <div className=" border border-primary p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
                     <Icon icon="mdi:help-outline" />
                     </div>
-                    <h6 className="text-base  font-semibold">Step 3</h6>
+                    <h6 className="text-base  font-semibold">Étape 3</h6>
                     <p className="mt-2 mb-4 ">
-                    After login system will Guide you step by step .
+                    Après la connexion, le système vous guidera étape par étape.
                     </p>
                   </div>
                 </div>
@@ -131,24 +131,25 @@ const LandingPage = () => {
                 <div className="">
                     
                   <h1 className="text-white mb-10 font-semibold text-3xl">
-                  Get in touch with us</h1>
+                  Contactez-nous</h1>
                   <div className="container mx-auto p-4 flex flex-col md:flex-row justify-between">
 
                   <div className="md:w-1/2 mt-4 md:mt-0 md:pr-8 gap-4 justify-items-start">
         
         <div className="flex ml-5 mt-10">
                 <Icon icon="clarity:map-marker-line" width="30" />
-                  <h2 className="font-light ml-5  tracking-wide md:text-center xs:text-center ">Kigali, Rwanda</h2>
+                  <h2 className="font-light ml-5  tracking-wide md:text-center xs:text-center ">Boulevard Tshatshi N°67                    
+                  Kinshasa/Gombe, RDC</h2>
                 </div>
                 <div className="flex ml-5  mt-5">
     
     <Icon icon="clarity:email-line" width="30" />
     
-      <h2 className="  font-light ml-5  tracking-wide md:text-center xs:text-center ">nbhs20246@gmail.com</h2>
+      <h2 className="  font-light ml-5  tracking-wide md:text-center xs:text-center ">contactsg.esu@minesu.gouv.cd</h2>
     </div>
     <div className="flex ml-5 mt-5">
       <Icon icon="fluent:call-24-regular" width="30" />
-      <h2 className=" ml-5  font-light tracking-wide md:text-center xs:text-center ">+250789028283</h2>
+      <h2 className=" ml-5  font-light tracking-wide md:text-center xs:text-center ">xxx-xxx-xxx</h2>
     </div>
           </div>
        
@@ -189,14 +190,14 @@ const LandingPage = () => {
     </div>
 
        
-      
+{/*       
         <section className="relative mt-20 block lg:pt-0 bg-blueGray-800" id="register">
          
 
                     <Studentsform/>
 
            
-        </section>
+        </section> */}
       </main>
       <Footer/>
     </>

@@ -6,8 +6,11 @@ export default function UserRegisterForm() {
       <>
  <Navbar transparent/>
 
-
-  <Userform/>
+ <div className="bg-white p-4 mt-10 rounded-lg ">
+ <Userform className="m-10"/>
+          
+          </div>
+  
   <Footer/>
          
        

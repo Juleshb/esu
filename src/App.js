@@ -69,7 +69,7 @@ export default function App() {
           <Route path="/oaeresulte" element={<AdiminOaeresult/>} />
           <Route path="/adimin/audiologiste/abrscale/:userId" element ={<ABRScaleupudateAdmin />} />
           
-          <Route path="*" element={<Navigate to="/landing" />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </BrowserRouter>
     </div>

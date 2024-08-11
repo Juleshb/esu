@@ -26,8 +26,8 @@ function Footer() {
             <Icon icon="el:map-marker" width="36" />
             </div>
            <div className=" flex flex-col items-center space-y-4 ">
-           <h3>Kigali, Rwanda</h3>
-            <h3>KN 20 Ave</h3>
+           <h3>Boulevard Tshatshi N°67</h3>
+            <h3>Kinshasa/Gombe, RDC</h3>
            </div>
             
           </div>

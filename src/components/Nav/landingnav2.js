@@ -6,34 +6,32 @@ function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     return (
         <div className="relative">
-            <nav className="bg-primary border-b-2 fixed top-0 left-0 right-0 border-white z-10">
+            <nav className="bg-white border-b-2 fixed top-0 left-0 right-0 border-primary z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex-shrink-0">
                            
                               <Link to={"/landing"} >
-                              <img
-                                className="h-7 w-16"
-                                 src={logo}
-                                alt="logo"
-                            />
+                              <img src={logo} className="h-14 w-21 mt-2 mb-2"  alt="main_logo" />
                                     </Link>
                         </div>
                         <div className="flex items-center">
 
                             <div className="block sm:hidden xs:hidden">
                                 <div className="ml-10 flex items-baseline space-x-4">
+                               
+                                <Link to={"/landing"} className=" hover:bg-primary hover:text-white  text-primary px-3 py-2 rounded-md text-base">
+                                        Accueil
+                                </Link>
 
-                                    <a href="#register" className=" hover:bg-white border border-white hover:text-primary text-white px-3 py-2 rounded-md text-base">
-                                        Regist now
-                                    </a>
+                                    <Link to="/register" className="hover:bg-primary border border-primary hover:text-white text-primary px-3 py-2 rounded-md text-base">
+                                    Inscrivez-vous maintenant
+                                    </Link>
 
-                                    <a href="#contactus" className=" hover:bg-white hover:text-primary  text-white px-3 py-2 rounded-md text-base">
-                                        Contact
-                                    </a>
+                                    
 
-                                    <Link to={"/Login"} className=" hover:bg-white hover:text-primary  text-white px-3 py-2 rounded-md text-base">
-                                        SignIn
+                                    <Link to={"/Login"} className=" hover:bg-primary hover:text-white  text-primary px-3 py-2 rounded-md text-base">
+                                    Connexion
                                     </Link>
 
     
@@ -45,7 +43,7 @@ function Navbar() {
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
                                 type="button"
-                                className="bg-white-900 inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:text-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white-800 focus:ring-white"
+                                className="bg-white-900 inline-flex items-center justify-center p-2 rounded-md text-primary hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white-800 focus:ring-white"
                                 aria-controls="mobile-menu"
                                 aria-expanded="false"
                             >
@@ -102,16 +100,16 @@ function Navbar() {
                             <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
 
 
-                                    <a  href="#register" className="hover:bg-white border border-white hover:text-primary text-white px-3 py-2 rounded-md text-base block">
-                                    Regist now
-                                    </a>
+                               <Link to={"/landing"} className=" hover:bg-primary hover:text-white  text-primary px-3 py-2 rounded-md text-base block">
+                                        Accueil
+                                </Link>
 
-                                    <a  href="#contactus" className="hover:bg-white hover:text-primary text-white px-3 py-2 rounded-md text-base block">
-                                        Contact
-                                    </a>
+                                    <Link to="/register" className="hover:bg-primary border border-primary hover:text-white text-primary px-3 py-2 rounded-md text-base block">
+                                    Inscrivez-vous maintenant
+                                    </Link>
 
-                                    <Link to={"/Login"} className="hover:bg-white hover:text-primary text-white px-3 py-2 rounded-md text-base block">
-                                        SignIn
+                                    <Link to={"/Login"} className="hover:bg-primary hover:text-white text-primary px-3 py-2 rounded-md text-base block">
+                                    Connexion
                                     </Link>
 
                                     

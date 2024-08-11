@@ -109,8 +109,8 @@ const Login = () => {
                   </div>
 
                   <div className="mt-4">
-                    <h4 className="font-semibold text-xl text-primary">Sign In</h4>
-                    <p className="mb-2">Enter your Username and Pin </p>
+                    <h4 className="font-semibold text-xl text-primary">Se connecter</h4>
+                    <p className="mb-2">Entrez votre Adress email ou matricule <br></br>et votre mot de passe pour se connecter </p>
                   </div>
      {/* Success message */}
      {showSuccessMessage && (
@@ -161,7 +161,7 @@ const Login = () => {
             id="rememberMe"
             name="rememberMe"
           />
-          <span className="ml-2">Remember me</span>
+          <span className="ml-2">Souviens-toi de moi</span>
         </label>
       </div>
       <div className="text-center">
@@ -190,9 +190,9 @@ const Login = () => {
 
                   <div className="mt-4 text-center">
                     <p className="text-sm">
-                      Don&apos;t have an account?{' '}
+                      Vous n&apos;avez pas de compte ?{' '}
                       <Link to="/register" className="text-primary font-semibold">
-                        Create Account
+                      Créer un compte
                       </Link>
                     </p>
                   </div>
@@ -202,18 +202,7 @@ const Login = () => {
             <div className="hidden md:flex  grid w-full grid-cols-1 md:grid-cols-2 ">
               <div className=" text-center justify-center flex-col">
                 <div className="bg-gradient-to-br from-primary to-primary-light h-full m-3 p-7 rounded-lg flex flex-col justify-center overflow-hidden">
-                  <h4 className="text-white font-semibold">Welcome to Newborn Hearing Loss and Genetic Screening in Rwanda (NHSR)</h4>{' '}
-                  <br></br>
-                  <p className="text-white">
-                  The NBHS Research project in Rwanda is dedicated <br></br>
-                   to advancing newborn hearing screening by implementing <br></br>
-                   a robust model for the early detection of hearing <br></br>
-                   impairments in newborns. Concurrently, the project <br></br>
-                   aims to delve into genetic assessments to identify <br></br>
-                   genetic patterns associated with newborn hearing loss. <br></br>
-                   This collaborative effort seeks to ensure timely <br></br>
-                   interventions and support for affected infants in Rwanda.<br></br>
-                  </p>
+                <img src={logo} className="w-96"  alt="main_logo" />
                 </div>
               </div>
             </div>
