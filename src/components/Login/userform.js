@@ -8,6 +8,8 @@ export default function Newborn() {
   const [filteredInstitutions, setFilteredInstitutions] = useState([]);
   const [selectedInstitution, setSelectedInstitution] = useState(null);
   const [faculties, setFaculties] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState(null); // New state for selected faculty
+  const [departments, setDepartments] = useState([]); // New state for departments
 
   const handleLabelClick = () => {
     setIsPopupVisible(true);
@@ -66,9 +68,33 @@ export default function Newborn() {
     }
   }, [selectedInstitution]);
 
+  useEffect(() => {
+    if (selectedFaculty) {
+      // Fetch departments when a new faculty is selected
+      fetch(`http://localhost:4600/api/departments/faculty/${selectedFaculty}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            console.error('Error fetching departments:', data.error);
+            setDepartments([]);
+          } else {
+            setDepartments(data);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching departments:', error);
+          setDepartments([]); // Set departments to an empty array in case of a fetch error
+        });
+    }
+  }, [selectedFaculty]);
+
   const handleInstitutionClick = (institution) => {
     setSelectedInstitution(institution);
     handleClosePopup();
+  };
+
+  const handleFacultyChange = (event) => {
+    setSelectedFaculty(event.target.value);
   };
 
 
@@ -92,6 +118,7 @@ export default function Newborn() {
                 name="mothername"
                 value={selectedInstitution ? selectedInstitution.id : ''}
                 onClick={handleLabelClick}
+                onChange={handleFacultyChange}
                 required
               />
               <input
@@ -192,37 +219,46 @@ export default function Newborn() {
                   name="weightAtBirth" required />
                   </div>
                   <div className="col-span-1">
-  <label htmlFor="neonatalInfectionRisk" className="block text-sm font-medium text-gray-700">
-    Faculté
-  </label>
-  <select
-    className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
-    name="neonatalInfectionRisk"
-    required
-  >
-    {faculties.length === 0 ? (
-      <option value="">No faculty found</option>
-    ) : (
-      faculties.map((faculty) => (
-        <option key={faculty.id} value={faculty.id}>
-          {faculty.name}
-        </option>
-      ))
-    )}
-  </select>
-</div>
-                <div className="col-span-1">
-        <label htmlFor="maternalSevereDisease" className="block text-sm font-medium text-gray-700">Département</label>
-        <select
-          className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
-          name="maternalSevereDisease"
-          required
-        >
-          <option></option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-      </div>  
+              <label htmlFor="neonatalInfectionRisk" className="block text-sm font-medium text-gray-700">
+                Faculté
+              </label>
+              <select
+                className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
+                name="neonatalInfectionRisk"
+                value={selectedFaculty || ''}
+                onChange={handleFacultyChange}
+                required
+              >
+                {faculties.length === 0 ? (
+                  <option value="">No faculty found</option>
+                ) : (
+                  faculties.map((faculty) => (
+                    <option key={faculty.id} value={faculty.id}>
+                      {faculty.name}
+                    </option>
+                  ))
+                )}
+              </select>
+            </div>
+            <div className="col-span-1">
+              <label htmlFor="maternalSevereDisease" className="block text-sm font-medium text-gray-700">Département</label>
+              <select
+                className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
+                name="maternalSevereDisease"
+                required
+              ><option></option>
+                {departments.length === 0 ? (
+                  <option value="">No department found</option>
+                ) :  (
+                  
+                  departments.map((department) => (
+                    <option key={department.id} value={department.id}>
+                      {department.name}
+                    </option>
+                  ))
+                )}
+              </select>
+            </div>
            <div className="col-span-1">
                   <label htmlFor="History of Maternal Alcohol Use and Smoking" className="block text-sm font-medium text-gray-700">Promotion</label>
                   <select 
