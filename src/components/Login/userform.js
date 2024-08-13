@@ -50,9 +50,19 @@ export default function Newborn() {
       fetch(`http://localhost:4600/api/faculties/institution/${selectedInstitution.id}`)
         .then((response) => response.json())
         .then((data) => {
-          setFaculties(data);
+          if (data.error) {
+            // Handle the error response by setting faculties to an empty array
+            console.error('Error fetching faculties:', data.error);
+            setFaculties([]);
+          } else {
+            // Set faculties to the returned data if no error
+            setFaculties(data);
+          }
         })
-        .catch((error) => console.error('Error fetching faculties:', error));
+        .catch((error) => {
+          console.error('Error fetching faculties:', error);
+          setFaculties([]); // Set faculties to an empty array in case of a fetch error
+        });
     }
   }, [selectedInstitution]);
 
@@ -182,22 +192,25 @@ export default function Newborn() {
                   name="weightAtBirth" required />
                   </div>
                   <div className="col-span-1">
-              <label htmlFor="neonatalInfectionRisk" className="block text-sm font-medium text-gray-700">
-                Faculté
-              </label>
-              <select
-                className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
-                name="neonatalInfectionRisk"
-                required
-              >
-                <option value="">Select a faculté</option>
-                {faculties.map((faculty) => (
-                  <option key={faculty.id} value={faculty.id}>
-                    {faculty.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+  <label htmlFor="neonatalInfectionRisk" className="block text-sm font-medium text-gray-700">
+    Faculté
+  </label>
+  <select
+    className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
+    name="neonatalInfectionRisk"
+    required
+  >
+    {faculties.length === 0 ? (
+      <option value="">No faculty found</option>
+    ) : (
+      faculties.map((faculty) => (
+        <option key={faculty.id} value={faculty.id}>
+          {faculty.name}
+        </option>
+      ))
+    )}
+  </select>
+</div>
                 <div className="col-span-1">
         <label htmlFor="maternalSevereDisease" className="block text-sm font-medium text-gray-700">Département</label>
         <select
@@ -241,7 +254,7 @@ export default function Newborn() {
            </form>
         </div>
         {isPopupVisible && (
-        <div className="fixed mt-8 inset-0 z-50 flex justify-center overflow-y-auto bg-black bg-opacity-50" onClick={handleClosePopup}>
+        <div className="fixed mt-8 inset-0 z-50 flex justify-center overflow-y-auto bg-black bg-opacity-50">
           <div className="items-center">
             <div className="bg-white p-6 rounded-lg shadow-xl border-dotted border-2 border-primary">
             <h2 className="text-3xl font-bold mb-8 relative">
