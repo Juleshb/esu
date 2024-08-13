@@ -90,8 +90,11 @@ export default function Newborn() {
 
   const handleInstitutionClick = (institution) => {
     setSelectedInstitution(institution);
+    setSelectedFaculty(null); // Reset selected faculty
+    setDepartments([]); // Reset departments
     handleClosePopup();
   };
+  
 
   const handleFacultyChange = (event) => {
     setSelectedFaculty(event.target.value);
@@ -118,7 +121,7 @@ export default function Newborn() {
                 name="mothername"
                 value={selectedInstitution ? selectedInstitution.id : ''}
                 onClick={handleLabelClick}
-                onChange={handleFacultyChange}
+                 onChange={handleFacultyChange}
                 required
               />
               <input
@@ -228,7 +231,7 @@ export default function Newborn() {
                 value={selectedFaculty || ''}
                 onChange={handleFacultyChange}
                 required
-              >
+              ><option></option>
                 {faculties.length === 0 ? (
                   <option value="">No faculty found</option>
                 ) : (
