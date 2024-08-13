@@ -6,7 +6,8 @@ export default function Newborn() {
   const [searchTerm, setSearchTerm] = useState('');
   const [institutions, setInstitutions] = useState([]);
   const [filteredInstitutions, setFilteredInstitutions] = useState([]);
-  const [selectedInstitution, setSelectedInstitution] = useState('');
+  const [selectedInstitution, setSelectedInstitution] = useState(null);
+  const [faculties, setFaculties] = useState([]);
 
   const handleLabelClick = () => {
     setIsPopupVisible(true);
@@ -43,35 +44,55 @@ export default function Newborn() {
     setFilteredInstitutions(filtered);
   }, [searchTerm, institutions]);
 
-  const handleInstitutionClick = (institutionName) => {
-    setSelectedInstitution(institutionName);
+  useEffect(() => {
+    if (selectedInstitution) {
+      // Fetch faculties when a new institution is selected
+      fetch(`http://localhost:4600/api/faculties/institution/${selectedInstitution.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setFaculties(data);
+        })
+        .catch((error) => console.error('Error fetching faculties:', error));
+    }
+  }, [selectedInstitution]);
+
+  const handleInstitutionClick = (institution) => {
+    setSelectedInstitution(institution);
     handleClosePopup();
   };
 
+
     return (
       <>
-      <div className="rounded-t  mb-0 px-6 py-6">
-  
-          <div className="text-center flex justify-between">
-            <h4 className="text-lg font-bold text-primary">Formulaire d&apos;inscription des étudiants</h4>
-          </div>
+     <div className="rounded-t mb-0 px-6 py-6">
+        <div className="text-center flex justify-between">
+          <h4 className="text-lg font-bold text-primary">Formulaire d&apos;inscription des étudiants</h4>
         </div>
-        <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+      </div>
+      <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
         <form id="registrationForm">
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="col-span-1">
-                  <label htmlFor="mother's name" className="block text-sm font-medium text-gray-700">Établissement choisi</label>
-                  <input
-                type="text"
-                className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="col-span-1">
+              <label htmlFor="mothername" className="block text-sm font-medium text-gray-700">
+                Établissement choisi
+              </label>
+              <input
+                type="hidden"
                 id="mothername"
                 name="mothername"
-                placeholder="Rechercher un établissement"
-                value={selectedInstitution}
+                value={selectedInstitution ? selectedInstitution.id : ''}
                 onClick={handleLabelClick}
                 required
-              />                </div>
+              />
+              <input
+                type="text"
+                className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
+                placeholder="Rechercher un établissement"
+                value={selectedInstitution ? selectedInstitution.name : ''}
+                onClick={handleLabelClick}
+                readOnly
+              />
+            </div>
                 <div className="col-span-1">
                   <label htmlFor="father's name" className="block text-sm font-medium text-gray-700">Nom*</label>
                   <input
@@ -160,16 +181,23 @@ export default function Newborn() {
                   className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full" 
                   name="weightAtBirth" required />
                   </div>
-                <div className="col-span-1">
-                  <label htmlFor="Neonatal Infection Risk" className="block text-sm font-medium text-gray-700">Faculté</label>
-                  <select 
-                  className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"  
-                  name="neonatalInfectionRisk" required>
-                    <option></option>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </select>
-                </div>
+                  <div className="col-span-1">
+              <label htmlFor="neonatalInfectionRisk" className="block text-sm font-medium text-gray-700">
+                Faculté
+              </label>
+              <select
+                className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-500 block w-full"
+                name="neonatalInfectionRisk"
+                required
+              >
+                <option value="">Select a faculté</option>
+                {faculties.map((faculty) => (
+                  <option key={faculty.id} value={faculty.id}>
+                    {faculty.name}
+                  </option>
+                ))}
+              </select>
+            </div>
                 <div className="col-span-1">
         <label htmlFor="maternalSevereDisease" className="block text-sm font-medium text-gray-700">Département</label>
         <select
@@ -213,9 +241,17 @@ export default function Newborn() {
            </form>
         </div>
         {isPopupVisible && (
-        <div className="fixed mt-8 inset-0 z-50 flex justify-center overflow-y-auto bg-black bg-opacity-50">
+        <div className="fixed mt-8 inset-0 z-50 flex justify-center overflow-y-auto bg-black bg-opacity-50" onClick={handleClosePopup}>
           <div className="items-center">
-            <div className="bg-white p-6 rounded-lg shadow-xl border-dotted border-2 border-Teal">
+            <div className="bg-white p-6 rounded-lg shadow-xl border-dotted border-2 border-primary">
+            <h2 className="text-3xl font-bold mb-8 relative">
+              <button
+                className="absolute top-0 right-0  bg-white text-red-600 rounded-lg hover:bg-primary hover:text-white focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-50 "
+                onClick={handleClosePopup}
+              >
+                <Icon icon="material-symbols:close" />
+              </button>
+            </h2>
               <h2 className="text-lg font-bold mb-4">Search Établissement</h2>
               <input
                 type="text"
@@ -229,7 +265,7 @@ export default function Newborn() {
                   <li
                     key={institution.id}
                     className="py-2 cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleInstitutionClick(institution.name)}
+                    onClick={() => handleInstitutionClick(institution)}
                   >
                     <img src={institution.logoUrl} alt={institution.name} className="inline-block mr-2 w-6 h-6" />
                     {institution.name}
