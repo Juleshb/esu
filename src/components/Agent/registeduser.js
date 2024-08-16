@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import { FaSpinner } from 'react-icons/fa'; // Import spinner icon
 
 const UserTable = () => {
-  const [students, setStudents] = useState([]);
+  const [agents, setagents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,8 +18,8 @@ const UserTable = () => {
       setIsLoading(true); // Start loading
       try {
         let endpoint = searchTerm
-          ? `http://localhost:4600/api/students/search?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}&search=${encodeURIComponent(searchTerm)}`
-          : `http://localhost:4600/api/students/pagination?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}`;
+          ? `http://localhost:4600/api/agents/search?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}&search=${encodeURIComponent(searchTerm)}`
+          : `http://localhost:4600/api/agents/pagination?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}`;
 
         if (sortConfig.key) {
           endpoint += `&sort=${sortConfig.key}&order=${sortConfig.direction}`;
@@ -30,11 +30,11 @@ const UserTable = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setStudents(data.students || []); // Ensure that `students` is always an array
+        setagents(data.agents || []); // Ensure that `agents` is always an array
         setTotalPages(Math.ceil((data.total || 0) / itemsPerPage)); // Handle potential undefined `total`
       } catch (error) {
         console.error('Error fetching the student data:', error);
-        setStudents([]); // Ensure we don't attempt to map over undefined
+        setagents([]); // Ensure we don't attempt to map over undefined
       } finally {
         setIsLoading(false); // End loading
       }
@@ -45,7 +45,7 @@ const UserTable = () => {
 
   const fetchStudentById = async (matricule) => {
     try {
-      const response = await fetch(`http://localhost:4600/api/students/reg/${matricule}`);
+      const response = await fetch(`http://localhost:4600/api/agents/reg/${matricule}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -96,7 +96,7 @@ const UserTable = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:4600/api/students/${selectedStudent.id}`, {
+      const response = await fetch(`http://localhost:4600/api/agents/${selectedStudent.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -107,8 +107,8 @@ const UserTable = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const updatedStudent = await response.json();
-      setStudents((prevStudents) =>
-        prevStudents.map((student) => (student.id === updatedStudent.id ? updatedStudent : student))
+      setagents((prevagents) =>
+        prevagents.map((student) => (student.id === updatedStudent.id ? updatedStudent : student))
       );
       setShowPopup(false);
     } catch (error) {
@@ -158,10 +158,10 @@ const UserTable = () => {
                     Nom Institut {renderSortIcon('nomInstitut')}
                   </th>
                   <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider" onClick={() => handleSort('nomFac')}>
-                    Faculty {renderSortIcon('nomFac')}
+                  lib {renderSortIcon('nomFac')}
                   </th>
                   <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider" onClick={() => handleSort('nomDepartement')}>
-                    Department {renderSortIcon('nomDepartement')}
+                  libGrade {renderSortIcon('nomDepartement')}
                   </th>
                   <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider" onClick={() => handleSort('logoUrl')}>
                     Institut Logo {renderSortIcon('logoUrl')}
@@ -169,7 +169,7 @@ const UserTable = () => {
                 </tr>
               </thead>
               <tbody className="text-xs">
-                {students.map((student) => {
+                {agents.map((student) => {
                   const profileLogoUrl = student.photo.startsWith('http')
                     ? student.photo
                     : `https://www.esu-identification.net/assets/img/etudiant/profile/${student.photo}`;
@@ -187,8 +187,8 @@ const UserTable = () => {
                       <td className="px-6 py-3">{student.postNom}</td>
                       <td className="px-6 py-3">{student.prenom}</td>
                       <td className="px-6 py-3">{student.nomInstitut}</td>
-                      <td className="px-6 py-3">{student.nomFac}</td>
-                      <td className="px-6 py-3">{student.nomDepartement}</td>
+                      <td className="px-6 py-3">{student.lib}</td>
+                      <td className="px-6 py-3">{student.libGrade}</td>
                       <td className="px-6 py-4 whitespace-no-wrap">
                         <img src={institutionLogoUrl} alt="" className="h-10 w-10 object-contain" />
                       </td>

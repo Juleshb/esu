@@ -24,7 +24,7 @@ function TabNavigation() {
         >
             
         <i className='mr-2'><Icon icon="el:list-alt" /></i>
-        étudiants List
+        Liste des Agents
         </button>
         <button
           className={`px-4 items-center mt-2 mb-2 rounded-lg text-xs flex  py-3 block ${
@@ -35,7 +35,7 @@ function TabNavigation() {
           onClick={() => handleTabClick(2)}
         >
             <i className='mr-2'><Icon icon="zondicons:add-outline" /></i>
-            étudiants
+            Ajouter une nouvelle Agents
         </button>
        
       </div>
