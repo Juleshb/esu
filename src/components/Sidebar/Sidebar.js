@@ -84,7 +84,7 @@ export default function Sidebar() {
                     }
                   ><Icon icon="ic:outline-dashboard" /></i>{""}
                  
-                  Dashboard
+                 Tableau de bord
                 </Link>
               </li>
 
@@ -108,7 +108,7 @@ export default function Sidebar() {
                     }
                   ><Icon icon="tabler:hospital" /></i>{" "}
                   
-                  Health Centers
+                  Intuitions
                 </Link>
               </li>
 
@@ -132,7 +132,7 @@ export default function Sidebar() {
                     }
                   ><Icon icon="zondicons:add-outline" /></i>{" "}
                   
-                  Screening
+                  Province
                 </Link>
               </li>
 
@@ -156,7 +156,7 @@ export default function Sidebar() {
                     }
                   ><Icon icon="healthicons:i-documents-accepted-outline" /></i>{" "}
                   
-                 OAE Result
+                  Département
                 </Link>
               </li>
 
@@ -179,7 +179,7 @@ export default function Sidebar() {
                     }
                   ><Icon icon="fluent:text-change-reject-20-regular" /></i>{" "}
                   
-                  ABR Scale
+                  Agents
                 </Link>
               </li>
               <li className={"font-semibold items-center transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 hover:text-white hover:bg-primary px-4 rounded-lg " +
@@ -202,7 +202,7 @@ export default function Sidebar() {
                     }
                   ><Icon icon="ph:users-three-thin" /></i>{" "}
                   
-                  Users
+                  Étudiants
                 </Link>
               </li>
 
@@ -213,7 +213,7 @@ export default function Sidebar() {
                 >
                   <i className="fas fa-clipboard-list  mr-2 text-sm"><Icon icon="bx:book" /></i>{" "}
                   
-                 Report
+                  Utilisateurs
                 </Link>
               </li>
 

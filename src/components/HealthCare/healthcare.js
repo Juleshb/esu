@@ -22,7 +22,7 @@ function TabNavigation() {
           onClick={() => handleTabClick(1)}
         >
             <i className='mr-2'><Icon icon="zondicons:add-outline" /></i>
-            New Health Care
+            Ajouter une nouvelle institution
         </button>
         <button
           className={`px-4 items-center mt-2 mb-2 rounded-lg text-xs flex  py-3 block ${
@@ -34,7 +34,7 @@ function TabNavigation() {
         >
             
         <i className='mr-2'><Icon icon="el:list-alt" /></i>
-        Registed Health Cares
+        Liste des institutions
         </button>
        
       </div>

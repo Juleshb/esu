@@ -1,36 +1,50 @@
 import { useState, useEffect } from 'react';
-import { Line, Pie, Bar } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
-import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
+// import { Line, Pie, Bar } from 'react-chartjs-2';
+// import { Chart, registerables } from 'chart.js';
+ import { Icon } from "@iconify/react";
+ import { Link } from "react-router-dom";
 
 
-Chart.register(...registerables);
+// Chart.register(...registerables);
 
-const Dashboard = () => {
-  const [bornsData, setBornsData] = useState([]);
+ const Dashboard = () => {
+
+
+  const [data, setData] = useState({
+    institutions: null,
+    students: null,
+    agents: null,
+    faculties: null,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const authToken = localStorage.getItem('authToken');
-    fetch('https://hblab.rw/DataCollection/API/newBorns/getAllborns', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // Include authorization token if required
-        'Authorization': `Bearer ${authToken}` // Include the token in the Authorization header
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        setBornsData(data.data);
+    const fetchData = async () => {
+      try {
+        const responses = await Promise.all([
+          fetch('http://localhost:4600/api/institutions/sum'),
+          fetch('http://localhost:4600/api/students/sum'),
+          fetch('http://localhost:4600/api/agents/sum'),
+          fetch('http://localhost:4600/api/faculties/sum'),
+        ]);
+
+        const dataArr = await Promise.all(responses.map((response) => response.json()));
+
+        setData({
+          institutions: dataArr[0][0]["COUNT(*)"],
+          students: dataArr[1][0]["COUNT(*)"],
+          agents: dataArr[2][0]["COUNT(*)"],
+          faculties: dataArr[3][0]["COUNT(*)"],
+        });
+      } catch (error) {
+        console.error('Error fetching the data:', error);
+      } finally {
         setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      });
-  }, []);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array to run once on mount
 
   if (loading) {
     return <div className='mx-auto '>
@@ -132,7 +146,7 @@ const Dashboard = () => {
 
   </div>
 
-  
+{/*   
          <div className="animate-pulse flex flex-col  space-x-4">
     
     <div className="flex-1 space-y-6 py-1">
@@ -153,147 +167,63 @@ const Dashboard = () => {
         <div className="h-2 bg-slate-700 rounded"></div>
       </div>
     </div>
-  </div>
+  </div> */}
   
          
     </div>;
+    
   }
-
-  // Processing data to count births for each date
-  const birthsByDate = bornsData.reduce((acc, born) => {
-    const date = born.createdAt.split('T')[0]; // Extracting date part only
-    acc[date] = acc[date] ? acc[date] + 1 : 1;
-    return acc;
-  }, {});
-
-  // Counting births based on OAEResult
-  const referCount = bornsData.filter(born => born.OAEResult === 'Refer').length;
-  const passCount = bornsData.filter(born => born.OAEResult === 'Pass').length;
-
-  // Chart data for births by OAEResult
-  const oaerResultChartData = {
-    labels: ['Refer', 'Pass'],
-    datasets: [
-      {
-        label: 'OAEResult Distribution',
-        data: [referCount, passCount],
-        backgroundColor: ['#173561', 'rgb(75, 192, 192)'],
-        hoverBackgroundColor: ['#173561', 'rgb(75, 192, 192)'],
-      },
-    ],
-  };
-
-  // Counting births based on OAEResult for each date
-  const birthsByOaeResult = bornsData.reduce((acc, born) => {
-    const date = born.createdAt.split('T')[0];
-    acc[date] = acc[date] || { Refer: 0, Pass: 0 };
-    acc[date][born.OAEResult]++;
-    return acc;
-  }, {});
-
-  const dates = Object.keys(birthsByOaeResult);
-  const referData = dates.map(date => birthsByOaeResult[date].Refer);
-  const passData = dates.map(date => birthsByOaeResult[date].Pass);
-
-  const barChartData = {
-    labels: dates,
-    datasets: [
-      {
-        label: 'Refer',
-        backgroundColor: 'rgb(75, 192, 192)',
-        data: referData,
-      },
-      {
-        label: 'Pass',
-        backgroundColor: '#173561',
-        data: passData,
-      },
-    ],
-  };
-
-  const lineChartData = {
-    labels: Object.keys(birthsByDate),
-    datasets: [
-      {
-        label: 'Number of births created',
-        data: Object.values(birthsByDate),
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
-        color: '#173561',
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
-
-  const pieChartStyle = {
-    width: '250px', // Adjust the width as needed
-    height: '250px', // Adjust the height as needed
-  };
-   
-
-  const totalNewborns = bornsData.length;
-  
 
   return (
 
     <div>
        <div className='flex flex-wrap border border-primary'>
     <div className="lg:pt-12 pt-6 w-full md:w-3/12 px-4 text-center ">
-                <div className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 hover:text-white hover:bg-primary text-primary relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+    <Link to="/users" className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-80 duration-300 hover:text-white hover:bg-primary text-primary relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                   <div className="px-4 py-5 flex-auto">
-                    <div className="border hover:border-white text-5xl border-primary p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
-                    <Icon icon="icon-park-outline:baby" />
+                    <div className="border hover:border-white text-5xl  text-primary bg-cyan-100 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
+                    <Icon icon="ph:student-bold" />
                     </div>
-                    <h6 className="text-sm  font-semibold">Total of registed new borns</h6>
-                    <p className="mt-2 mb-4 text-4xl ">
-                     {totalNewborns}</p>
-                    <p className="underline text-base mt-5">
-                      <Link title="Meet our doctors" className=""  >
-                      View new borns
-                       </Link>
-                    </p>
+                    <h6 className="text-sm  font-semibold">Total d&apos;étudiants</h6>
+                    <p className="mt-2 mb-4 text-4xl ">{data.students}</p>
+                  </div>
+      </Link>
+              </div>
+              <div className="lg:pt-12 pt-6 w-full md:w-3/12 px-4 text-center ">
+                <div className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-80 duration-300 hover:text-white hover:bg-primary text-primary relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                  <div className="px-4 py-5 flex-auto">
+                    <div className="border hover:border-white text-5xl  text-yellow-300  bg-yellow-100 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
+                    <Icon icon="mage:user-fill" />
+                    </div>
+                    <h6 className="text-sm  font-semibold">Total Agent</h6>
+                    <p className="mt-2 mb-4 text-4xl ">{data.agents}</p>
+                    
 
                   </div>
                 </div>
               </div>
               <div className="lg:pt-12 pt-6 w-full md:w-3/12 px-4 text-center ">
-                <div className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 hover:text-white hover:bg-primary text-primary relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                <div className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-80 duration-300 hover:text-white hover:bg-primary text-primary relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                   <div className="px-4 py-5 flex-auto">
-                    <div className="border hover:border-white text-5xl border-primary p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
-                    <Icon icon="lucide:baby" />
+                    <div className="border hover:border-white text-5xl text-green-300 bg-green-100 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
+                    <Icon icon="bxs:school" />
                     </div>
-                    <h6 className="text-sm  font-semibold">Total Number of OAE Result Refere</h6>
-                    <p className="mt-2 mb-4 text-4xl ">{referCount}</p>
-                    <p className="underline text-base mt-5">
-                      <Link title="Meet our doctors" className=""  to="" >
-                      View borns
-                       </Link>
-                    </p>
-
+                    <h6 className="text-sm  font-semibold">Total Universités</h6>
+                    <p className="mt-2 mb-4 text-4xl ">{data.institutions}</p>
+                    
                   </div>
                 </div>
               </div>
+
               <div className="lg:pt-12 pt-6 w-full md:w-3/12 px-4 text-center ">
-                <div className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 hover:text-white hover:bg-primary text-primary relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                <div className="transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-80 duration-300 hover:text-white hover:bg-primary text-primary relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                   <div className="px-4 py-5 flex-auto">
-                    <div className="border hover:border-white text-5xl border-primary p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
-                    <Icon icon="ph:baby-bold" />
+                    <div className="border hover:border-white text-5xl  text-orange-500 bg-orange-200 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ">
+                    <Icon icon="mingcute:department-line" />
                     </div>
-                    <h6 className="text-sm  font-semibold">Total Number of OAE Result Passe</h6>
-                    <p className="mt-2 mb-4 text-4xl ">{passCount} </p>
-                    <p className="underline text-base mt-5">
-                      <Link title="Meet our doctors" className=""  to="/student/application" >
-                      View borns
-                       </Link>
-                    </p>
+                    <h6 className="text-sm  font-semibold">Total des faculté</h6>
+                    <p className="mt-2 mb-4 text-4xl ">{data.faculties}</p>
+                    
 
                   </div>
                 </div>
@@ -301,21 +231,7 @@ const Dashboard = () => {
 
 
               </div> 
-    <div className=" bg-white text-primary p-10 mt-5 flex flex-wrap border border-primary">
-      
-      <div className="p-4 mb-8  pt-6 w-full md:w-4/12 px-4 text-center">
-        <h2 className="text-sm  font-semibold">Number of Births Created by Date</h2>
-        <Line data={lineChartData} options={options} />
-      </div>
-      <div className=" p-4  mb-8 pt-6 w-full md:w-4/12 px-4 text-center"  style={pieChartStyle}>
-        <h2 className="text-sm  font-semibold">OAE Result Distribution</h2>
-        <Pie className='h-2' data={oaerResultChartData}  />
-      </div>
-      <div className=" p-4  mb-8 pt-6 w-full md:w-4/12 px-4 text-center">
-        <h2 className="text-sm  font-semibold">Refer vs Pass Births by Date</h2>
-        <Bar data={barChartData} />
-      </div>
-    </div>
+   
     </div>
   );
 };

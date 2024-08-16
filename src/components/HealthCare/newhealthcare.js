@@ -97,7 +97,7 @@ export default function HealthCenter() {
         </div>
       )}
           <div className="text-center flex justify-between">
-            <h4 className="text-lg font-bold text-primary">Regest new Health Center</h4>
+            <h4 className="text-lg font-bold text-primary">Ajouter une nouvelle institution</h4>
           </div>
         </div>
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -144,7 +144,7 @@ export default function HealthCenter() {
         type="submit"
         className="mt-4 px-4 py-3 bg-primary text-white rounded-lg hover:bg-white hover:text-primary border border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-50 items-center flex"
       >
-        <i className='mr-2'><Icon icon="dashicons:saved" /></i>Save
+        <i className='mr-2'><Icon icon="dashicons:saved" /></i>Ajouter une nouvelle institution
       </button>
     </form>
         </div>

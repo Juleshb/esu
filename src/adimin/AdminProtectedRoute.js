@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'; // Import PropTypes
 
 const AdminProtectedRoute = ({ element: Element, ...rest }) => {
   const role = localStorage.getItem('role');
-  const isAdmin = role === 'admin';
+  const isAdmin = role === 'super-admin';
 
   return (
     <Route

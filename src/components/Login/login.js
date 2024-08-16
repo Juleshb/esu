@@ -24,12 +24,12 @@ const Login = () => {
     // Simulating your login logic with API call
     const loginData = {
       email: email,
-      pin: password
+      password: password
     };
 
     try {
       // Assuming a fetch call to your login API
-      const response = await fetch('https://hblab.rw/DataCollection/API/users/login', {
+      const response = await fetch('http://localhost:4600/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -40,9 +40,9 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        const role = data.users.role; // Extract role from API response
+        const role = data.user.role; // Extract role from API response
         const authToken = data.token;
-        const lastName = data.email;
+        const lastName = data.user.email;
         
         localStorage.setItem('authToken', authToken);
 
@@ -55,7 +55,7 @@ const Login = () => {
         setShowFailureMessage(false);
         setSuccessMessage(data.message || 'You have logedin!');
 
-        if (role === 'admin') {
+        if (role === 'super-admin') {
           navigate('/adimin'); // Use navigate instead of history.push for redirection
         } else if (role === 'nurse') {
           navigate('/nurses'); // Use navigate instead of history.push for redirection
@@ -68,7 +68,7 @@ const Login = () => {
         console.error('Failed to login:', response.statusText);
         setShowFailureMessage(true);
         setShowSuccessMessage(false);
-        setErrorMessage(data.message || 'Failed to Login');
+        setErrorMessage(data.error || 'Failed to Login');
         setShowButton(true);
       setShowLoader(false);
       }
@@ -89,6 +89,7 @@ const Login = () => {
     setShowFailureMessage(false);
   };
   return (
+
     <>
       <main className="relative flex justify-center items-center h-screen">
         <section className="">
@@ -110,7 +111,7 @@ const Login = () => {
 
                   <div className="mt-4">
                     <h4 className="font-semibold text-xl text-primary">Se connecter</h4>
-                    <p className="mb-2">Entrez votre Adress email ou matricule <br></br>et votre mot de passe pour se connecter </p>
+                    <p className="mb-2">Entrez votre Adress email ou matricule et votre mot de passe pour se connecter</p>
                   </div>
      {/* Success message */}
      {showSuccessMessage && (
@@ -146,8 +147,8 @@ const Login = () => {
           type="password"
           name="password"
           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-          placeholder="PIN"
-          aria-label="PIN"
+          placeholder="password"
+          aria-label="password"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -168,7 +169,7 @@ const Login = () => {
        
 
         {showLoader && (
-        <div className="w-full loadermt-4 px-4 py-3 bg-primary text-white rounded-lg hover:bg-white hover:text-primary border border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-50 items-center flex"><Icon icon="svg-spinners:90-ring-with-bg" />Signing in...</div>
+        <div className="w-full loadermt-4 px-4 py-3 bg-primary text-white rounded-lg hover:bg-white hover:text-primary border border-primary focus:outline-none focus:ring focus:ring-primary focus:ring-opacity-50 items-center flex"><Icon icon="svg-spasswordners:90-ring-with-bg" />Signing in...</div>
       )}
 
       {/* Submit button */}
@@ -181,7 +182,7 @@ const Login = () => {
           <i className="mr-2">
           <Icon icon="solar:user-line-duotone" />
           </i>
-          Sign in
+          Se connecter
         </button>
       )}
       </div>
@@ -190,19 +191,19 @@ const Login = () => {
 
                   <div className="mt-4 text-center">
                     <p className="text-sm">
-                      Vous n&apos;avez pas de compte ?{' '}
+                    Vous n&apos;avez pas de compte ? {' '}
                       <Link to="/register" className="text-primary font-semibold">
-                      Créer un compte
+                        Créer un compte
                       </Link>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="hidden md:flex  grid w-full grid-cols-1 md:grid-cols-2 ">
-              <div className=" text-center justify-center flex-col">
-                <div className="bg-gradient-to-br from-primary to-primary-light h-full m-3 p-7 rounded-lg flex flex-col justify-center overflow-hidden">
-                <img src={logo} className="w-96"  alt="main_logo" />
+            <div className="hidden md:flex grid w-full grid-cols-1 md:grid-cols-2">
+              <div className="text-center justify-center flex-col">
+                <div className="bg-gradient-to-br from-primary to-primary-light h-full m-3 p-7 p-32 rounded-lg flex flex-col justify-center overflow-hidden">
+                  <img src={logo} className="w-96" alt="main_logo" />
                 </div>
               </div>
             </div>
@@ -210,7 +211,7 @@ const Login = () => {
         </section>
       </main>
     </>
- );
+  );
 };
 
 export default Login;
