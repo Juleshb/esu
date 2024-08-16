@@ -13,6 +13,7 @@ import NurseScreaning from './Nurse/screaning'
 import NurseViewsinglebon from './Nurse/uppdateborn';
 import AdminScreaning from './adimin/screaning'
 import User from './adimin/user'
+import Agent from './adimin/agent'
 import Audiologiste from './Audiologiste'
 import Audioscreaning from './Audiologiste/screaning';
 import Oaeresult from './Audiologiste/oaeresult';
@@ -64,6 +65,7 @@ export default function App() {
           <Route path="/admin/screaning" element={<AdminScreaning />} />
           <Route path="/adimin/sutudent" element ={<Students />} />
           <Route path="/users" element ={<User />} />
+          <Route path="/agent" element ={<Agent />} />
           <Route path="/users/view/:userId" element ={<Viewuseradmin />} />
           <Route path="/born/view/:userId" element ={<Viewsinglebon />} />
           <Route path="/oaeresulte" element={<AdiminOaeresult/>} />
